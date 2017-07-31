@@ -13,9 +13,12 @@ public class TagType implements Serializable {
     protected String uuid;
     protected String name;
     protected String description;
+    @Column(name = "user_id")
     protected String userId;
     protected String username;
+    @Column(name = "create_time")
     protected Date createdTime;
+    @Column(name = "modified_time")
     protected Date modifiedTime;
 
     //region getter & setter

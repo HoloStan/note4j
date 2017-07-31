@@ -10,21 +10,9 @@ import java.util.UUID;
  */
 public class UUIDWorker {
 
-    private Logger logger = LoggerFactory.getLogger(UUIDWorker.class);
+    private static Logger logger = LoggerFactory.getLogger(UUIDWorker.class);
 
-    private static UUIDWorker instance;
-
-    private UUIDWorker() {
-    }
-
-    public static UUIDWorker instance() {
-        if(instance == null) {
-            instance = new UUIDWorker();
-        }
-        return instance;
-    }
-
-    public synchronized String next() {
+    public synchronized static String next() {
         String uuid = UUID.randomUUID().toString();
         logger.info("Gen uuid: " + uuid);
         return uuid;

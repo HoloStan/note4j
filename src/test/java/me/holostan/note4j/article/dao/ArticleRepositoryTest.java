@@ -1,5 +1,7 @@
 package me.holostan.note4j.article.dao;
 
+import me.holostan.note4j.article.dao.repository.ArticleRepository;
+import me.holostan.note4j.article.entity.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 /**
  * Created by ghu on 7/19/2017.
@@ -21,9 +25,8 @@ public class ArticleRepositoryTest {
     private ArticleRepository articleRepository;
 
     @Test
-    @Rollback
+//    @Rollback
     public void addOne() throws Exception {
-
     }
 
     @Test
@@ -38,16 +41,17 @@ public class ArticleRepositoryTest {
 
     }
 
-    @Test
-    @Rollback
-    public void getOne() throws Exception {
 
+    @Test
+    public void findOne() throws Exception {
+        Article article = articleRepository.findOne("e6fe54c8-583b-4d10-a451-e07087174939");
+        logger.info(article.toString());
     }
 
     @Test
-    @Rollback
-    public void getAll() throws Exception {
-
+    public void findAll() throws Exception {
+        List<Article> articles =  articleRepository.findArticlesByAuthor("ghu", 0);
+        logger.info(articles.toString());
     }
 
 

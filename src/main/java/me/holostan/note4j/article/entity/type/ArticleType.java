@@ -17,9 +17,13 @@ public class ArticleType implements Serializable {
     protected String title;
     protected String author;
     protected String mdbody;
+    @Column(name="create_time")
     protected Date createdTime;
+    @Column(name="modified_time")
     protected Date modifiedTime;
-    protected Boolean isPublishded;
+    @Column(name="is_published")
+    protected Boolean isPublished;
+    @Column(name="is_deleted")
     protected Boolean isDeleted;
 
     //region getter & setter
@@ -71,12 +75,12 @@ public class ArticleType implements Serializable {
         this.modifiedTime = modifiedTime;
     }
 
-    public Boolean getIsPublishded() {
-        return isPublishded;
+    public Boolean getIsPublished() {
+        return isPublished;
     }
 
-    public void setIsPublishded(Boolean isPublishded) {
-        this.isPublishded = isPublishded;
+    public void setIsPublished(Boolean isPublished) {
+        this.isPublished = isPublished;
     }
 
     public Boolean getIsDeleted() {
@@ -87,5 +91,6 @@ public class ArticleType implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    //endregion
+//endregion
+
 }

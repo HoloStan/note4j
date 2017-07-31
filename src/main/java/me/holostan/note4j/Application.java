@@ -1,18 +1,17 @@
 package me.holostan.note4j;
 
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
+import me.holostan.note4j.article.entity.ResponseMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import javax.sql.DataSource;
+import java.io.IOException;
+import java.lang.reflect.Type;
 
 /**
  * Created by ghu on 6/1/2017.
@@ -23,27 +22,18 @@ public class Application {
     protected static Logger logger= LoggerFactory.getLogger(Application.class);
 
     @Bean
-    @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource dataSource() {
-        return new org.apache.tomcat.jdbc.pool.DataSource();
-    }
-
-    @Bean
-    public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
-
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
-
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/me.holostan.note4j.**.dao.mapper/*.xml"));
-
-        return sqlSessionFactoryBean.getObject();
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter () {
+        return new MappingJackson2HttpMessageConverter () {
+            // override function writeInternal to package result before output.
+            @Override
+            protected void writeInternal (Object object, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+                ResponseMap responseMap = new ResponseMap();
+                responseMap.setStatus(200);
+                responseMap.setMessage("SUCCESS");
+                responseMap.setData(object);
+                this.writeInternal(responseMap, (Type) null, outputMessage);
+            }
+        };
     }
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-GET /article [show all article breaf list by page scroll]
+GET /articles/{page} [show all article breaf list by page scroll]
 GET /article/{articleId} [get specified article content]
 
 POST /article [add]

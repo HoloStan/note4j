@@ -1,28 +1,56 @@
 package me.holostan.note4j.article.entity;
 
+import me.holostan.note4j.article.entity.type.ArticleType;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by ghu on 7/26/2017.
+ */
+@Entity
+@Table(name="t_tag")
 public class Tag implements Serializable {
 
-    private long id;
-    private String name;
-    private String description;
-    private List<Article> articles;
-    private String username;
-    private Date createdTime;
-    private Date modifiedTime;
+    @Id
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "uuid")
+    protected String uuid;
+    protected String name;
+    protected String description;
+    @Column(name = "user_id")
+    protected String userId;
+    protected String username;
+    @Column(name = "create_time")
+    protected Date createdTime;
+    @Column(name = "modified_time")
+    protected Date modifiedTime;
 
-    // required for mybatis
-    public Tag() {}
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "t_article_tag",
+            joinColumns = @JoinColumn(
+                    name = "tag_id",
+                    referencedColumnName = "uuid"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "article_id",
+                    referencedColumnName = "uuid"
+            )
+    )
+    protected List<ArticleType> articles;
 
-    public long getId() {
-        return id;
+    //region getter & setter
+
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -41,8 +69,12 @@ public class Tag implements Serializable {
         this.description = description;
     }
 
-    public List<Article> getArticles() {
-        return articles;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -51,10 +83,6 @@ public class Tag implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
     }
 
     public Date getCreatedTime() {
@@ -73,13 +101,12 @@ public class Tag implements Serializable {
         this.modifiedTime = modifiedTime;
     }
 
-    @Override
-    public String toString() {
-        return "Tag{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public List<ArticleType> getArticles() {
+        return articles;
     }
-}
 
+    public void setArticles(List<ArticleType> articles) {
+        this.articles = articles;
+    }
+    //endregion
+}
