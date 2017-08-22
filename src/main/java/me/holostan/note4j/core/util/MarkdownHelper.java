@@ -2,6 +2,10 @@ package me.holostan.note4j.core.util;
 
 import com.github.rjeschke.txtmark.Processor;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 /**
  * Created by ghu on 8/7/2017.
  */
@@ -24,18 +28,27 @@ public class MarkdownHelper {
     toc: true
     mathjax: true
     ---*/
-    public static void generate(String title, String date, String[] tags, String[] categories, boolean toc, boolean mathjax, String mdbody) {
+    public static void generate(String title, String date, String[] tags, String[] categories, boolean toc, boolean mathjax, String mdbody) throws Exception {
         StringBuffer buffer = new StringBuffer();
         buffer.append("---\n")
                 .append("title: ").append(title).append("\n")
                 .append("date: ").append(date).append("\n")
                 .append("tags: ")
                 .append("categories: ")
-                .append("toc: ")
-                .append("mathjax: ")
+                .append("toc: ").append(toc)
+                .append("mathjax: ").append(mathjax)
                 .append("---\n")
                 .append("\n")
                 .append(mdbody);
+
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("d:/demo.md")));
+        //write contents of StringBuffer to a file
+        bufferedWriter.write(buffer.toString());
+        //flush the stream
+        bufferedWriter.flush();
+        //close the stream
+        bufferedWriter.close();
+
     }
 
 }
