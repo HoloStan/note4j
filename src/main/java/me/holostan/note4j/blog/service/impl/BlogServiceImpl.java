@@ -4,6 +4,7 @@ import me.holostan.note4j.blog.entity.Blog;
 import me.holostan.note4j.blog.service.BlogService;
 import me.holostan.note4j.core.util.MarkdownHelper;
 import me.holostan.note4j.core.util.UUIDWorker;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by ghu on 8/22/2017.
  */
+@Service
 public class BlogServiceImpl implements BlogService {
     @Override
     public void addBlog(Blog blog) {

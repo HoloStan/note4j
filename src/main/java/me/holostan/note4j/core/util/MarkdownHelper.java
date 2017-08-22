@@ -28,26 +28,29 @@ public class MarkdownHelper {
     toc: true
     mathjax: true
     ---*/
-    public static void generate(String title, String date, String[] tags, String[] categories, boolean toc, boolean mathjax, String mdbody) throws Exception {
+    public static void generate(String title, String date, String[] tags, String[] categories, boolean toc, boolean mathjax, String mdbody) {
         StringBuffer buffer = new StringBuffer();
         buffer.append("---\n")
                 .append("title: ").append(title).append("\n")
                 .append("date: ").append(date).append("\n")
-                .append("tags: ")
-                .append("categories: ")
-                .append("toc: ").append(toc)
-                .append("mathjax: ").append(mathjax)
+                .append("tags: ").append("\n")
+                .append("categories: ").append("\n")
+                .append("toc: ").append(toc).append("\n")
+                .append("mathjax: ").append(mathjax).append("\n")
                 .append("---\n")
                 .append("\n")
                 .append(mdbody);
 
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("d:/demo.md")));
-        //write contents of StringBuffer to a file
-        bufferedWriter.write(buffer.toString());
-        //flush the stream
-        bufferedWriter.flush();
-        //close the stream
-        bufferedWriter.close();
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("d:/demo.md")))) {
+            //write contents of StringBuffer to a file
+            bufferedWriter.write(buffer.toString());
+            //flush the stream
+            bufferedWriter.flush();
+            //close the stream
+            bufferedWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

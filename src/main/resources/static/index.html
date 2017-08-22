@@ -119,15 +119,17 @@
             var title = $('#title').val();
             var mdbody = simplemde.value();
 
+            var payload = {
+                "title": title,
+                "mdbody": mdbody
+            };
+            
             fetch('/blog',{
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: {
-                    title: title,
-                    mdbody: mdbody
-                }
+                body: JSON.stringify(payload)
             }).then(function(response) {
               if(response.ok){
                   return response.json();
