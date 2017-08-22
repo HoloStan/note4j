@@ -87,12 +87,12 @@ public class RedisCacheFilter implements Filter {
     private boolean isCachable(HttpServletRequest request) {
         String requestUri = request.getRequestURI();
         boolean isMatched = false;
-        for (String uri : cacheUris){
-            if(requestUri.matches(uri)){
-                isMatched = true;
-                break;
-            }
-        }
+//        for (String uri : cacheUris){
+//            if(requestUri.matches(uri)){
+//                isMatched = true;
+//                break;
+//            }
+//        }
         return isMatched;
     }
 
