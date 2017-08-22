@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Template</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- simpleMDE -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+    <!-- 推荐：根据需要加载，引入基础框架 -->
+    <script src="https://unpkg.com/jparticles@2.0.1/production/jparticles.js"></script>
+    <!-- 引入粒子特效 -->
+    <script src="https://unpkg.com/jparticles@2.0.1/production/particle.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Project name</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Nav header</li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3><input id="title" class="form-control" type="text"  placeholder="Title"/></h3>
+            </div>
+        </div> <!-- /.title -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <!--<span style="border: none" id="addTag" class="glyphicon glyphicon-edit"></span>-->
+                <br />
+            </div>
+        </div>  <!-- /.tag -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <textarea id="simplemde" class="form-control"></textarea>
+            </div>
+        </div><!-- /.MDE -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <button id="submit" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-saved"></span>Submit</button>
+                <button id="delete" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+            </div>
+        </div><!-- /.submit -->
+
+    </div><!-- /.container -->
+
+    <div id="particle" style="width: 100%; min-height: 95%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; position: absolute; top: 0; left: 0;z-index: -1000"></div>
+
+    <script>
+        new JParticles.particle('#particle', {
+            color: '#25bfff',
+            range: 2000,
+            proximity: 100,
+            // 开启视差效果
+            parallax: true,
+            //粒子最大运动速度 (0, +∞)
+            maxSpeed: 0.5,
+            //连线的形状，目前支持以下两种：spider|cube
+            lineShape: 'cube'
+
+        });
+    </script>
+
+    <script>
+        var simplemde = new SimpleMDE({ element: document.getElementById("simplemde") });
+
+        $('#submit').on('click',function(){
+
+            var title = $('#title').val();
+            var mdbody = simplemde.value();
+
+            fetch('/article').then(function(response) {
+              if(response.ok){
+                  return response.json();
+              }
+            }).then(function(json) {
+                console.log(json);
+            }).catch(function(error) {
+                console.log(error);
+            })
+        });
+    </script>
+
+</body>
+</html>
